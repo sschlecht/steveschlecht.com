@@ -1,0 +1,37 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+import { SITE, postSlug, formatDate } from '../../site.config';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: postSlug(post.id) }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const url = new URL(Astro.url.pathname, Astro.site).href;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.date.toISOString(),
+  dateModified: (post.data.updated ?? post.data.date).toISOString(),
+  url,
+  mainEntityOfPage: url,
+  author: { '@type': 'Person', name: SITE.name, url: SITE.url },
+};
+---
+<Base title={post.data.title} description={post.data.description || undefined} type="article" jsonLd={jsonLd}>
+  <article>
+    <h1>{post.data.title}</h1>
+    <p class="post-meta">
+      <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+      {post.data.updated && <> (updated {formatDate(post.data.updated)})</>}
+    </p>
+    <Content />
+  </article>
+  <p class="post-end">Thanks for reading. Find more in the <a href="/blog">blog</a>, or connect with me on <a href={SITE.linkedin}>LinkedIn</a>.</p>
+</Base>

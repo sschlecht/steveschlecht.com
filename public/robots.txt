@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://steveschlecht.com/sitemap-index.xml

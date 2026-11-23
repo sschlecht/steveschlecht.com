@@ -1,0 +1,100 @@
+:root {
+  --paper: #FAFBFA;
+  --ink: #1E2A33;
+  --muted: #5B6873;
+  --rule: #DCE1E4;
+  --mark: #F2D544;
+  --mark-soft: rgba(242, 213, 68, 0.45);
+  --code-bg: #EEF1F2;
+  --serif: 'Literata', Georgia, 'Times New Roman', serif;
+  --sans: 'Public Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #161B1F;
+    --ink: #E4E8EA;
+    --muted: #9AA6AE;
+    --rule: #2C353C;
+    --mark: #C9AE2E;
+    --mark-soft: rgba(201, 174, 46, 0.35);
+    --code-bg: #20272D;
+    color-scheme: dark;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+
+.wrap { max-width: 40rem; margin: 0 auto; padding: 0 1.25rem; }
+
+.skip { position: absolute; left: -999px; }
+.skip:focus { left: 1rem; top: 1rem; background: var(--paper); padding: .5rem 1rem; z-index: 10; }
+
+/* Links: the highlighter underline is the site's signature */
+a {
+  color: inherit;
+  text-decoration: none;
+  background-image: linear-gradient(var(--mark-soft), var(--mark-soft));
+  background-size: 100% 0.35em;
+  background-position: 0 88%;
+  background-repeat: no-repeat;
+  transition: background-size .15s ease;
+}
+a:hover { background-size: 100% 88%; }
+a:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { a { transition: none; } }
+
+/* Header */
+.site-header { padding: 2.5rem 0 1rem; }
+.site-header .wrap { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .5rem 1.5rem; }
+.brand { font-family: var(--sans); font-weight: 700; font-size: 1.15rem; letter-spacing: -0.01em; background: none; }
+.brand:hover { background: none; }
+.brand span { background: linear-gradient(var(--mark), var(--mark)) 0 85% / 100% 0.45em no-repeat; }
+nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; font-family: var(--sans); font-size: .95rem; }
+nav a { background-size: 0 0.35em; }
+nav a:hover, nav a[aria-current="page"] { background-size: 100% 0.35em; }
+
+main { padding: 2rem 0 4rem; }
+
+/* Type */
+h1, h2, h3 { font-family: var(--sans); line-height: 1.2; letter-spacing: -0.015em; }
+h1 { font-size: clamp(2rem, 5vw, 2.6rem); font-weight: 800; margin: 0 0 1rem; }
+h2 { font-size: 1.4rem; font-weight: 700; margin: 2.5rem 0 .75rem; }
+h3 { font-size: 1.15rem; font-weight: 700; margin: 2rem 0 .5rem; }
+p, ul, ol, blockquote, pre { margin: 0 0 1.25rem; }
+blockquote { margin-left: 0; padding-left: 1.25rem; border-left: 3px solid var(--mark); color: var(--muted); }
+code { font-size: .9em; background: var(--code-bg); padding: .1em .3em; border-radius: 3px; }
+pre { background: var(--code-bg); padding: 1rem; overflow-x: auto; border-radius: 4px; font-size: .9rem; }
+pre code { background: none; padding: 0; }
+img { max-width: 100%; height: auto; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
+table { display: block; overflow-x: auto; border-collapse: collapse; }
+th, td { border-bottom: 1px solid var(--rule); padding: .4rem .75rem; text-align: left; }
+
+.muted { color: var(--muted); }
+
+/* Post list */
+.posts { list-style: none; padding: 0; margin: 0 0 1.5rem; }
+.posts li { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: .7rem 0; border-bottom: 1px solid var(--rule); }
+.posts time { flex: none; font-family: var(--sans); font-size: .85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+@media (max-width: 34rem) {
+  .posts li { flex-direction: column; gap: .1rem; }
+}
+
+/* Post page */
+.post-meta { font-family: var(--sans); font-size: .9rem; color: var(--muted); margin: -.25rem 0 2rem; }
+.post-end { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); font-family: var(--sans); font-size: .95rem; }
+
+/* Footer */
+.site-footer { border-top: 1px solid var(--rule); padding: 1.5rem 0 3rem; font-family: var(--sans); font-size: .9rem; color: var(--muted); }
+.site-footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1.5rem; }
+.site-footer ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 1.25rem; }

@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection, getEntry, render } from 'astro:content';
+import { SITE, postSlug, formatDate } from '../site.config';
+
+const home = await getEntry('pages', 'home');
+const { Content } = home ? await render(home) : { Content: null };
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 10);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: SITE.name,
+  url: SITE.url,
+  sameAs: [SITE.linkedin],
+  knowsAbout: ['Search engine optimization', 'AI search', 'B2B marketing', 'Business development'],
+};
+---
+<Base description={home?.data.description} jsonLd={jsonLd}>
+  <h1>{home?.data.title ?? SITE.name}</h1>
+  {Content && <Content />}
+
+  <h2>Recent posts</h2>
+  {posts.length === 0 ? (
+    <p class="muted">No posts yet. Add your first one in Pages CMS.</p>
+  ) : (
+    <ul class="posts">
+      {posts.map((p) => (
+        <li>
+          <a href={`/blog/${postSlug(p.id)}/`}>{p.data.title}</a>
+          <time datetime={p.data.date.toISOString()}>{formatDate(p.data.date)}</time>
+        </li>
+      ))}
+    </ul>
+  )}
+  <p><a href="/blog">See all posts</a></p>
+</Base>

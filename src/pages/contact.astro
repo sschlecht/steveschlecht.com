@@ -1,0 +1,9 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../site.config';
+---
+<Base title="Contact" description="How to get in touch with Steve Schlecht.">
+  <h1>Contact</h1>
+  <p>The best way to reach me is by email at <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+  <p>You can also connect with me on <a href={SITE.linkedin}>LinkedIn</a>.</p>
+</Base>

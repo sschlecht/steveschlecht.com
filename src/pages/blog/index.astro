@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { postSlug, formatDate } from '../../site.config';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<Base title="Blog" description="Every post by Steve Schlecht on marketing, SEO, and AI search.">
+  <h1>Blog</h1>
+  {posts.length === 0 ? (
+    <p class="muted">No posts yet. Add your first one in Pages CMS.</p>
+  ) : (
+    <ul class="posts">
+      {posts.map((p) => (
+        <li>
+          <a href={`/blog/${postSlug(p.id)}/`}>{p.data.title}</a>
+          <time datetime={p.data.date.toISOString()}>{formatDate(p.data.date)}</time>
+        </li>
+      ))}
+    </ul>
+  )}
+</Base>
