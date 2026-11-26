@@ -9,8 +9,14 @@ const blog = defineCollection({
     description: z.string().optional().default(''),
     date: z.coerce.date(),
     updated: z.coerce.date().optional(),
-    draft: z.boolean().optional().default(false),
-  }),
+    status: z.enum(['draft', 'published']).optional(),
+    draft: z.boolean().optional(), // older posts may still use this
+  }).transform((d) => ({
+    ...d,
+    // A post is hidden unless its status is "published"
+    // (or, for older posts with no status, unless draft is true).
+    draft: d.status ? d.status !== 'published' : (d.draft ?? false),
+  })),
 });
 
 const pages = defineCollection({
