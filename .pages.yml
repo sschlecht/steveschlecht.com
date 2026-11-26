@@ -9,7 +9,7 @@ content:
     type: collection
     path: src/content/blog
     view:
-      fields: [title, date, draft]
+      fields: [title, date, status]
       primary: title
     fields:
       - name: title
@@ -23,10 +23,13 @@ content:
         label: Publish date
         type: date
         required: true
-      - name: draft
-        label: Draft (hide from the site)
-        type: boolean
-        default: false
+      - name: status
+        label: Status (Draft stays hidden; Published goes live)
+        type: select
+        default: draft
+        required: true
+        options:
+          values: [draft, published]
       - name: body
         label: Post
         type: rich-text
